@@ -13,6 +13,7 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
+        console.log("Credentials");
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/auth/jwt/create/`,
           {
@@ -45,7 +46,7 @@ export const authOptions = {
         if (res.ok && user) {
           user.id = userData.id;
           user.name = userData.username;
-          user.email = credentials.email;
+          //  user.email = credentials.email;
           user.image = userData.picture;
           user.role = userData.role;
 
