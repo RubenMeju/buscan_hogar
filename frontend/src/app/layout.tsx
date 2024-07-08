@@ -21,8 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <NextUIProvider>
           <Nav />
-
-          {children}
+          <div className="w-[90%] m-auto lg:w-[60%]">{children}</div>
         </NextUIProvider>
       </body>
     </html>

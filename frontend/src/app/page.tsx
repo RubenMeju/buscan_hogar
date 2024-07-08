@@ -40,10 +40,14 @@ export default async function Home() {
   const data = await getPets();
   return (
     <div>
-      <h1>Mascotas en adopcion</h1>
-      {data.map((pet: typePet) => (
-        <CardMascota key={pet.id} pet={pet} />
-      ))}
+      <h1 className="p-4 text-center text-xl font-semibold">
+        Mascotas en adopcion
+      </h1>
+      <div className="gap-2 grid grid-cols-2 sm:grid-cols-4">
+        {data.map((pet: typePet) => (
+          <CardMascota key={pet.id} pet={pet} />
+        ))}
+      </div>
     </div>
   );
 }
