@@ -1,9 +1,9 @@
 from django.urls import path, include
-from rest_framework.routers import SimpleRouter
+from rest_framework.routers import DefaultRouter
 from .views import PetViewSet, PetImageViewSet
 
 
-router = SimpleRouter()
+router = DefaultRouter()
 router.register(r'pets', PetViewSet)
 router.register(r'pet-images', PetImageViewSet)
 
