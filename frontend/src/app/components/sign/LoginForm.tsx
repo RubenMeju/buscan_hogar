@@ -49,7 +49,7 @@ export default function LoginForm({ onClose }: LoginFormProps) {
 
   return (
     <>
-      <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
+      <ModalHeader className="flex flex-col gap-1">Iniciar sesión</ModalHeader>
       <form onSubmit={handleSubmit}>
         <ModalBody>
           <Input
@@ -59,7 +59,7 @@ export default function LoginForm({ onClose }: LoginFormProps) {
             }
             isRequired
             label="Email"
-            placeholder="Enter your email"
+            placeholder="Ingrese su email"
             variant="bordered"
             type={"email"}
             value={email}
@@ -73,7 +73,7 @@ export default function LoginForm({ onClose }: LoginFormProps) {
             }
             isRequired
             label="Password"
-            placeholder="Enter your password"
+            placeholder="Ingrese su password"
             type="password"
             autoComplete="false"
             variant="bordered"
@@ -82,16 +82,21 @@ export default function LoginForm({ onClose }: LoginFormProps) {
             errorMessage={listError?.password}
             onChange={(e) => setPassword(e.target.value)}
           />
+
+          <div>
+            <span>¿Aún no tienes una cuenta? </span>
+            <Link href="/signup">Crear cuenta</Link>
+          </div>
           <div className="flex py-2 px-1 justify-between">
             <Checkbox
               classNames={{
                 label: "text-small",
               }}
             >
-              Remember me
+              Recordarme
             </Checkbox>
             <Link color="primary" href="#" size="sm">
-              Forgot password?
+              ¿Has olvidado tú password?
             </Link>
           </div>
         </ModalBody>
