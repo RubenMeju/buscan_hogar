@@ -58,7 +58,7 @@ class Pet(models.Model):
 class PetImage(models.Model):
     pet = models.ForeignKey(Pet, related_name='images',
                             on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='pets/', blank=True)
+    image = models.ImageField(upload_to='media/pets/', blank=True)
 
     def __str__(self):
         return f"Image for {self.pet.name}"

@@ -1,3 +1,5 @@
+import { Image } from "@nextui-org/react";
+
 async function getPetBySlug(slug) {
   console.log("llega el slug: ", slug);
   const res = await fetch(`http://127.0.0.1:8000/pets/slug/${slug}/`);
@@ -19,6 +21,7 @@ export default async function DetailsPage({
 }) {
   const data = await getPetBySlug(params.slug);
   const {
+    images,
     name,
     species,
     breed,
@@ -32,6 +35,8 @@ export default async function DetailsPage({
     status,
     shelter,
   } = data;
+
+  console.log("imagenes: " + JSON.stringify(images));
   return (
     <div>
       <h1>{name}</h1>
@@ -46,6 +51,19 @@ export default async function DetailsPage({
       <span>{shelter}</span>
 
       <span>{status}</span>
+
+      {images.map((item) => (
+        <div key={item.id}>
+          <Image
+            shadow="sm"
+            radius="lg"
+            width="100%"
+            alt={item.name}
+            className="w-full object-cover h-[140px]"
+            src={`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/${item.image}`}
+          />
+        </div>
+      ))}
     </div>
   );
 }

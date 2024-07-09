@@ -12,7 +12,9 @@ class PetViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'], url_path='slug/(?P<slug>[^/.]+)')
     def get_by_slug(self, request, slug=None):
         pet = Pet.objects.filter(slug=slug).first()
+        print("el pet", pet)
         if pet:
+            print("ebtramos al if pet", pet)
             serializer = PetSerializer(pet)
             return Response(serializer.data)
         return Response({"detail": "Not found."}, status=404)
