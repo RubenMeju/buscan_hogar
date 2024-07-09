@@ -27,7 +27,8 @@ export default function LoginForm({ onClose }: LoginFormProps) {
   const [password, setPassword] = useState("");
   const [listError, setListError] = useState<ErrorList>({});
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const res = await signIn("credentials", {
         email,
@@ -49,57 +50,60 @@ export default function LoginForm({ onClose }: LoginFormProps) {
   return (
     <>
       <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
-      <ModalBody>
-        <Input
-          autoFocus
-          endContent={
-            <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-          }
-          isRequired
-          label="Email"
-          placeholder="Enter your email"
-          variant="bordered"
-          type={"email"}
-          value={email}
-          isInvalid={!!listError?.email}
-          errorMessage={listError?.email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input
-          endContent={
-            <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-          }
-          isRequired
-          label="Password"
-          placeholder="Enter your password"
-          type="password"
-          variant="bordered"
-          value={password}
-          isInvalid={!!listError?.password}
-          errorMessage={listError?.password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <div className="flex py-2 px-1 justify-between">
-          <Checkbox
-            classNames={{
-              label: "text-small",
-            }}
-          >
-            Remember me
-          </Checkbox>
-          <Link color="primary" href="#" size="sm">
-            Forgot password?
-          </Link>
-        </div>
-      </ModalBody>
-      <ModalFooter>
-        <Button color="danger" variant="flat" onPress={onClose}>
-          Close
-        </Button>
-        <Button color="primary" onPress={handleSubmit}>
-          Sign in
-        </Button>
-      </ModalFooter>
+      <form onSubmit={handleSubmit}>
+        <ModalBody>
+          <Input
+            autoFocus
+            endContent={
+              <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+            }
+            isRequired
+            label="Email"
+            placeholder="Enter your email"
+            variant="bordered"
+            type={"email"}
+            value={email}
+            isInvalid={!!listError?.email}
+            errorMessage={listError?.email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            endContent={
+              <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+            }
+            isRequired
+            label="Password"
+            placeholder="Enter your password"
+            type="password"
+            autoComplete="false"
+            variant="bordered"
+            value={password}
+            isInvalid={!!listError?.password}
+            errorMessage={listError?.password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <div className="flex py-2 px-1 justify-between">
+            <Checkbox
+              classNames={{
+                label: "text-small",
+              }}
+            >
+              Remember me
+            </Checkbox>
+            <Link color="primary" href="#" size="sm">
+              Forgot password?
+            </Link>
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="danger" variant="flat" onPress={onClose}>
+            Close
+          </Button>
+          <Button color="primary" type="submit">
+            Sign in
+          </Button>
+        </ModalFooter>
+      </form>
     </>
   );
 }
