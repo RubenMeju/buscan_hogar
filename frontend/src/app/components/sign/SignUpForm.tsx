@@ -9,10 +9,9 @@ import {
   Checkbox,
   Link,
 } from "@nextui-org/react";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
 
-interface LoginFormProps {
+interface SignUpFormProps {
   onClose: () => void;
   setIsLogin: (isLogin: boolean) => void;
 }
@@ -23,34 +22,20 @@ interface ErrorList {
   [key: string]: string | undefined;
 }
 
-export default function LoginForm({ onClose, setIsLogin }: LoginFormProps) {
+export default function SignUpForm({ onClose, setIsLogin }: SignUpFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [repassword, setRepassword] = useState("");
+
   const [listError, setListError] = useState<ErrorList>({});
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const res = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
-      if (res?.ok) {
-        console.log("Success");
-        onClose();
-      } else {
-        console.log("Error");
-        setListError(JSON.parse(res?.error || "{}"));
-      }
-    } catch (error) {
-      console.error("Error al iniciar sesión:", error);
-    }
+    console.log("submit");
   };
-
   return (
     <>
-      <ModalHeader className="flex flex-col gap-1">Iniciar sesión</ModalHeader>
+      <ModalHeader className="flex flex-col gap-1">Crear cuenta</ModalHeader>
       <form onSubmit={handleSubmit}>
         <ModalBody>
           <Input
@@ -84,22 +69,26 @@ export default function LoginForm({ onClose, setIsLogin }: LoginFormProps) {
             onChange={(e) => setPassword(e.target.value)}
           />
 
+          <Input
+            endContent={
+              <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+            }
+            isRequired
+            label="Cofirmar Password"
+            placeholder="Repita su password"
+            type="password"
+            autoComplete="false"
+            variant="bordered"
+            value={repassword}
+            isInvalid={!!listError?.repassword}
+            errorMessage={listError?.repassword}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
           <div>
-            <span>¿Aún no tienes una cuenta? </span>
-            <Link className="cursor-pointer" onClick={() => setIsLogin(false)}>
-              Crear cuenta
-            </Link>
-          </div>
-          <div className="flex py-2 px-1 justify-between">
-            <Checkbox
-              classNames={{
-                label: "text-small",
-              }}
-            >
-              Recordarme
-            </Checkbox>
-            <Link color="primary" href="#" size="sm">
-              ¿Has olvidado tú password?
+            <span>¿Ya tienes una cuenta? </span>
+            <Link className="cursor-pointer" onClick={() => setIsLogin(true)}>
+              Iniciar sesión
             </Link>
           </div>
         </ModalBody>
@@ -108,7 +97,7 @@ export default function LoginForm({ onClose, setIsLogin }: LoginFormProps) {
             Cerrar
           </Button>
           <Button color="primary" type="submit">
-            Iniciar sesión
+            Crear cuenta
           </Button>
         </ModalFooter>
       </form>
