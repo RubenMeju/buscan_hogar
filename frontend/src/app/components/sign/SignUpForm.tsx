@@ -1,3 +1,4 @@
+import { signUp } from "@/app/action";
 import { LockIcon } from "@/app/icons/LockIcon";
 import { MailIcon } from "@/app/icons/MailIcon";
 import {
@@ -23,6 +24,7 @@ interface ErrorList {
 }
 
 export default function SignUpForm({ onClose, setIsLogin }: SignUpFormProps) {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
@@ -36,7 +38,7 @@ export default function SignUpForm({ onClose, setIsLogin }: SignUpFormProps) {
   return (
     <>
       <ModalHeader className="flex flex-col gap-1">Crear cuenta</ModalHeader>
-      <form onSubmit={handleSubmit}>
+      <form action={signUp}>
         <ModalBody>
           <Input
             autoFocus
@@ -44,7 +46,25 @@ export default function SignUpForm({ onClose, setIsLogin }: SignUpFormProps) {
               <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
             }
             isRequired
+            label="Username"
+            name="username"
+            placeholder="Ingrese su nombre de usuario"
+            variant="bordered"
+            type={"text"}
+            value={username}
+            isInvalid={!!listError?.username}
+            errorMessage={listError?.username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+
+          <Input
+            autoFocus
+            endContent={
+              <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+            }
+            isRequired
             label="Email"
+            name="email"
             placeholder="Ingrese su email"
             variant="bordered"
             type={"email"}
@@ -59,6 +79,7 @@ export default function SignUpForm({ onClose, setIsLogin }: SignUpFormProps) {
             }
             isRequired
             label="Password"
+            name="password"
             placeholder="Ingrese su password"
             type="password"
             autoComplete="false"
@@ -75,6 +96,7 @@ export default function SignUpForm({ onClose, setIsLogin }: SignUpFormProps) {
             }
             isRequired
             label="Cofirmar Password"
+            name="repassword"
             placeholder="Repita su password"
             type="password"
             autoComplete="false"
@@ -82,12 +104,12 @@ export default function SignUpForm({ onClose, setIsLogin }: SignUpFormProps) {
             value={repassword}
             isInvalid={!!listError?.repassword}
             errorMessage={listError?.repassword}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setRepassword(e.target.value)}
           />
 
           <div>
             <span>¿Ya tienes una cuenta? </span>
-            <Link className="cursor-pointer" onClick={() => setIsLogin(true)}>
+            <Link className="cursor-pointer" onPress={() => setIsLogin(true)}>
               Iniciar sesión
             </Link>
           </div>
