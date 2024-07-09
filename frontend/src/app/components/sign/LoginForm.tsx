@@ -12,27 +12,35 @@ import {
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 
-export default function LoginForm({ onClose }) {
+interface LoginFormProps {
+  onClose: () => void;
+}
+
+interface ErrorList {
+  email?: string;
+  password?: string;
+  [key: string]: string | undefined;
+}
+
+export default function LoginForm({ onClose }: LoginFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [listError, setListError] = useState<ErrorList>({});
 
   const handleSubmit = async () => {
-    console.log("enviando login");
     try {
       const res = await signIn("credentials", {
         email,
         password,
         redirect: false,
       });
-
-      console.log("fetch login: ", res);
-      /*
-      if (res.error === null) {
-        router.push("/profile");
-        ToastSuccess("Sesión iniciada!");
+      if (res?.ok) {
+        console.log("Success");
+        onClose();
       } else {
-        ToastError(res.error);
-      }*/
+        console.log("Error");
+        setListError(JSON.parse(res?.error || "{}"));
+      }
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
     }
@@ -47,22 +55,28 @@ export default function LoginForm({ onClose }) {
           endContent={
             <MailIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
           }
+          isRequired
           label="Email"
           placeholder="Enter your email"
           variant="bordered"
           type={"email"}
           value={email}
+          isInvalid={!!listError?.email}
+          errorMessage={listError?.email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <Input
           endContent={
             <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
           }
+          isRequired
           label="Password"
           placeholder="Enter your password"
           type="password"
           variant="bordered"
           value={password}
+          isInvalid={!!listError?.password}
+          errorMessage={listError?.password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <div className="flex py-2 px-1 justify-between">

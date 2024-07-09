@@ -23,10 +23,10 @@ export const authOptions = {
           }
         );
         const user = await res.json();
-        //   console.log('user: ', user)
+        console.log("user: ", user);
         if (!res.ok) {
-          // console.log('res no ok', user)
-          throw new Error(user.detail);
+          console.log("res no ok", user);
+          throw new Error(JSON.stringify(user));
         }
 
         const userRes = await fetch(
