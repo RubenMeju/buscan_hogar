@@ -44,7 +44,7 @@ export const authOptions = {
         }
 
         const userData = await userRes.json();
-        console.log("------USERDATA------: ", userData);
+        //   console.log("------USERDATA------: ", userData);
         // If no error and we have user data, return it
         if (res.ok && user) {
           user.id = userData.id;
@@ -120,21 +120,19 @@ export const authOptions = {
       // Asignamos los tokens si están disponibles en el objeto user
       if (user && user.access) {
         token.access = user.access;
-      }
-      if (user && user.refresh) {
         token.refresh = user.refresh;
+        token.role = user.role;
       }
       return token;
     },
     async session({ session, user, token }) {
-      if (token && token.tokens?.access) {
-        session.user.access = token.tokens.access;
-        session.user.refresh = token.tokens.refresh;
-      }
+      // console.log("meju token", token);
+
       // Agregamos los tokens a la sesión si están disponibles
       if (token && token.access) {
         session.user.id = token.sub;
         session.user.access = token.access;
+        session.user.role = token.role;
       }
       if (token && token.refresh) {
         session.user.refresh = token.refresh;

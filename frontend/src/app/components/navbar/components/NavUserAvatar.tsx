@@ -4,6 +4,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Link,
   NavbarContent,
 } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
@@ -31,7 +32,9 @@ export default function NavUserAvatar() {
             <p className="font-semibold">Signed in as</p>
             <p className="font-semibold">{session?.user?.email}</p>
           </DropdownItem>
-          <DropdownItem key="settings">My Settings</DropdownItem>
+          <DropdownItem key="settings">
+            <Link href="/profile">My Settings</Link>
+          </DropdownItem>
           <DropdownItem key="team_settings">Team Settings</DropdownItem>
           <DropdownItem key="analytics">Analytics</DropdownItem>
           <DropdownItem key="system">System</DropdownItem>

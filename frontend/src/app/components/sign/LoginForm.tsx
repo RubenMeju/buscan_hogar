@@ -40,7 +40,7 @@ export default function LoginForm({ onClose, setIsLogin }: LoginFormProps) {
         console.log("Success");
         onClose();
       } else {
-        console.log("Error");
+        console.log("Error", JSON.parse(res?.error));
         setListError(JSON.parse(res?.error || "{}"));
       }
     } catch (error) {
