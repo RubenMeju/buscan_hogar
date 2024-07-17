@@ -1,4 +1,5 @@
 "use server";
+import { NextResponse } from "next/server";
 
 export async function signUp(formData: FormData) {
   console.log("signUp");
@@ -41,4 +42,38 @@ export async function signUp(formData: FormData) {
     //ToastSuccess("Cuenta registrada con exito!");
     // router.push("/login");
   } catch (error) {}
+}
+
+export async function activationAccount(uid, token) {
+  console.log("Vamos a activar la cuenta", uid);
+  console.log("El token:", token);
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/auth/users/activation/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          uid: uid,
+          token: token,
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      const errorDetails = await res.json();
+      console.error("Error en la activación:", errorDetails);
+      return `Error en la activación: ${errorDetails.detail || res.status}`;
+    }
+
+    const data = await res.json();
+    console.log("Activación OK", data);
+    return data;
+  } catch (e) {
+    console.error("Error de red:", e);
+    return `Hubo un error con la solicitud de red: ${e}`;
+  }
 }
