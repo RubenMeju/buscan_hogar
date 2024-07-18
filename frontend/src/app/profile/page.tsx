@@ -16,7 +16,7 @@ export default async function ProfilePage() {
 
       <h3>
         Usuario asociado al refugio:
-        <strong> {session.user.shelter.name}</strong>
+        <strong> {session.user.shelter?.name}</strong>
       </h3>
 
       <h3>
