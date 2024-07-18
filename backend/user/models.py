@@ -9,6 +9,7 @@ from django.utils import timezone
 from djoser.signals import user_registered
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.conf import settings
+from shelter.models import Shelter
 
 
 class UserAccountManager(BaseUserManager):
@@ -27,7 +28,7 @@ class UserAccountManager(BaseUserManager):
         user = self.create_user(email, password, **extra_fields)
         user.is_superuser = True
         user.is_staff = True
-        user.role = "Admin"
+        user.role = "admin"
         user.verified = True
         user.save(using=self._db)
 
@@ -40,6 +41,7 @@ AUTH_PROVIDERS = {'google': 'google', 'email': 'email'}
 class UserAccount(AbstractBaseUser, PermissionsMixin):
     roles = (
         ("customer", "Customer"),
+        ("shelter", "Shelter"),
         ("admin", "Admin"),
     )
 
@@ -64,6 +66,10 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     role = models.CharField(max_length=20, choices=roles, default="customer")
     verified = models.BooleanField(default=False)
+
+    shelter = models.ForeignKey(
+        Shelter, on_delete=models.SET_NULL, null=True, blank=True, related_name="users"
+    )
 
     date_joined = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
