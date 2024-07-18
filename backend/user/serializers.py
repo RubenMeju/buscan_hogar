@@ -1,27 +1,17 @@
 from djoser.serializers import PasswordResetConfirmSerializer
 from djoser.serializers import UserCreateSerializer
-
 from django.contrib.auth import get_user_model
+from shelter.serializers import ShelterSerializer
 
 User = get_user_model()
 
 
 class UserSerializer(UserCreateSerializer):
+    shelter = ShelterSerializer(read_only=True)
+
     class Meta(UserCreateSerializer.Meta):
         model = User
-        fields = [
-            "id",
-            "email",
-            "username",
-            "picture",
-            "is_online",
-            "is_active",
-            "is_staff",
-            "role",
-            "verified",
-            "date_joined",
-            "updated_at",
-        ]
+        fields = "__all__"
 
 
 class CustomPasswordResetConfirmSerializer(PasswordResetConfirmSerializer):

@@ -44,7 +44,7 @@ export const authOptions = {
         }
 
         const userData = await userRes.json();
-        //   console.log("------USERDATA------: ", userData);
+        console.log("------USERDATA------: ", userData);
         // If no error and we have user data, return it
         if (res.ok && user) {
           user.id = userData.id;
@@ -52,6 +52,7 @@ export const authOptions = {
           user.email = userData.email;
           user.image = userData.picture;
           user.role = userData.role;
+          user.shelter = userData.shelter;
 
           return user;
         }
@@ -122,6 +123,7 @@ export const authOptions = {
         token.access = user.access;
         token.refresh = user.refresh;
         token.role = user.role;
+        token.shelter = user.shelter;
       }
       return token;
     },
@@ -133,6 +135,7 @@ export const authOptions = {
         session.user.id = token.sub;
         session.user.access = token.access;
         session.user.role = token.role;
+        session.user.shelter = token.shelter;
       }
       if (token && token.refresh) {
         session.user.refresh = token.refresh;

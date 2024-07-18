@@ -7,10 +7,27 @@ export default async function ProfilePage() {
   return (
     <div>
       <h1>ProfilePage</h1>
-      {session.user.role === "Admin" && <h2>Admin</h2>}
+      {session.user.role === "admin" && <h2>Admin DEV</h2>}
+      {session.user.role === "shelter" && (
+        <h2>
+          Tienes rol: <strong>Shelter</strong>
+        </h2>
+      )}
 
-      <span>{session.user.name}</span>
-      <span>{session.user.email}</span>
+      <h3>
+        Usuario asociado al refugio:
+        <strong> {session.user.shelter.name}</strong>
+      </h3>
+
+      <h3>
+        Nombre:
+        <strong> {session.user.name}</strong>
+      </h3>
+
+      <h3>
+        Email:
+        <strong> {session.user.email}</strong>
+      </h3>
     </div>
   );
 }
