@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableHeader,
@@ -11,18 +11,18 @@ import {
   Tooltip,
   ChipProps,
   Image,
+  Button,
+  useDisclosure,
 } from "@nextui-org/react";
 import { EditIcon } from "@/app/icons/EditIcon";
 import { EyeIcon } from "@/app/icons/EyeIcon";
-import { deletePetByID } from "@/app/action";
-
-/*
 
 import dynamic from "next/dynamic";
+import { DeleteIcon } from "@/app/icons/DeleteIcon";
 const ConfirmDeletePet = dynamic(
   () => import("../components/ConfirmDeletePet")
 );
-*/
+
 // Define la interfaz para los datos de las mascotas
 interface PetData {
   id: string;
@@ -52,14 +52,11 @@ const columns = [
 ];
 
 export default function TablePets({ data }: TablePetsProps) {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [selectedId, setSelectedId] = useState<Number>();
   // Define el tipo de los parámetros de renderCell
   const renderCell = React.useCallback((data: PetData, columnKey: string) => {
     const cellValue = data[columnKey as keyof PetData];
-
-    const handleDeletePet = async () => {
-      const res = deletePetByID(data.id);
-      console.log("el res: ", await res);
-    };
 
     switch (columnKey) {
       case "image":
@@ -106,9 +103,15 @@ export default function TablePets({ data }: TablePetsProps) {
               </span>
             </Tooltip>
             <Tooltip color="danger" content="Delete user">
-              {/* 
-              <ConfirmDeletePet id={data.id} />
-            */}
+              <Button
+                className="text-lg text-danger cursor-pointer active:opacity-50"
+                onPress={() => {
+                  setSelectedId(Number(data.id));
+                  onOpen();
+                }}
+              >
+                <DeleteIcon />
+              </Button>
             </Tooltip>
           </div>
         );
@@ -118,26 +121,33 @@ export default function TablePets({ data }: TablePetsProps) {
   }, []);
 
   return (
-    <Table aria-label="Example table with custom cells">
-      <TableHeader columns={columns}>
-        {(column) => (
-          <TableColumn
-            key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
-          >
-            {column.name}
-          </TableColumn>
-        )}
-      </TableHeader>
-      <TableBody items={data}>
-        {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey as string)}</TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <>
+      <Table aria-label="Example table with custom cells">
+        <TableHeader columns={columns}>
+          {(column) => (
+            <TableColumn
+              key={column.uid}
+              align={column.uid === "actions" ? "center" : "start"}
+            >
+              {column.name}
+            </TableColumn>
+          )}
+        </TableHeader>
+        <TableBody items={data}>
+          {(item) => (
+            <TableRow key={item.id}>
+              {(columnKey) => (
+                <TableCell>{renderCell(item, columnKey as string)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <ConfirmDeletePet
+        id={selectedId}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      />
+    </>
   );
 }
