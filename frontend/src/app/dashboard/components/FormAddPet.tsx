@@ -1,5 +1,7 @@
 "use client";
 import { postAddPet } from "@/app/action";
+import { ToastError } from "@/app/toast/ToastError";
+import { ToastSuccess } from "@/app/toast/ToastSuccess";
 import {
   Button,
   Checkbox,
@@ -39,8 +41,10 @@ export default function FormAddPet() {
     // console.log(result);
     if (!result.success) {
       setListError(result.error);
+      ToastError("La mascota no se ha podido añadir!!!");
     } else {
-      onClose;
+      console.log("success");
+      ToastSuccess("Mascota añadida!");
     }
   };
   console.log(listError);

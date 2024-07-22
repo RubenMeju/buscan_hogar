@@ -15,11 +15,14 @@ import {
 import { EditIcon } from "@/app/icons/EditIcon";
 import { EyeIcon } from "@/app/icons/EyeIcon";
 import { deletePetByID } from "@/app/action";
-import dynamic from "next/dynamic";
 
+/*
+
+import dynamic from "next/dynamic";
 const ConfirmDeletePet = dynamic(
   () => import("../components/ConfirmDeletePet")
 );
+*/
 // Define la interfaz para los datos de las mascotas
 interface PetData {
   id: string;
@@ -103,7 +106,9 @@ export default function TablePets({ data }: TablePetsProps) {
               </span>
             </Tooltip>
             <Tooltip color="danger" content="Delete user">
+              {/* 
               <ConfirmDeletePet id={data.id} />
+            */}
             </Tooltip>
           </div>
         );

@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "./components/navbar/Nav";
 import Providers from "@/Providers";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +24,7 @@ export default function RootLayout({
         <Providers>
           <Nav />
           <div className="w-[90%] m-auto lg:w-[60%]">{children}</div>
+          <ToastContainer />
         </Providers>
       </body>
     </html>
