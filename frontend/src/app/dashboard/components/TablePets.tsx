@@ -11,15 +11,15 @@ import {
   Tooltip,
   ChipProps,
   Image,
-  Button,
-  useDisclosure,
 } from "@nextui-org/react";
 import { EditIcon } from "@/app/icons/EditIcon";
-import { DeleteIcon } from "@/app/icons/DeleteIcon";
 import { EyeIcon } from "@/app/icons/EyeIcon";
 import { deletePetByID } from "@/app/action";
-import ConfirmDeletePet from "./ConfirmDeletePet";
+import dynamic from "next/dynamic";
 
+const ConfirmDeletePet = dynamic(
+  () => import("../components/ConfirmDeletePet")
+);
 // Define la interfaz para los datos de las mascotas
 interface PetData {
   id: string;

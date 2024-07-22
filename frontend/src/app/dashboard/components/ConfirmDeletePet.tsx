@@ -1,20 +1,21 @@
+import { Button, Modal, ModalContent, useDisclosure } from "@nextui-org/react";
 import { deletePetByID } from "@/app/action";
 import { DeleteIcon } from "@/app/icons/DeleteIcon";
-import { Button, Modal, ModalContent, useDisclosure } from "@nextui-org/react";
+import React from "react";
 
 export default function ConfirmDeletePet({ id }) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const updateUserWithId = deletePetByID.bind(null, id);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
       <Button
         className="text-lg text-danger cursor-pointer active:opacity-50"
-        onClick={onOpen}
+        onPress={onOpen}
       >
         <DeleteIcon />
       </Button>
-      <Modal isOpen={isOpen} placement={"center"} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} placement="center" onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <div className="p-8">
