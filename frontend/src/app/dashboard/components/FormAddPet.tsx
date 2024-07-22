@@ -27,7 +27,7 @@ interface Imagefiles {
   "0": string[];
 }
 export default function FormAddPet() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
   const [listError, setListError] = useState<errorPet>();
 
@@ -39,6 +39,8 @@ export default function FormAddPet() {
     // console.log(result);
     if (!result.success) {
       setListError(result.error);
+    } else {
+      onClose;
     }
   };
   console.log(listError);

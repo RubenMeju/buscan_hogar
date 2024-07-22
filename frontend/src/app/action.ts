@@ -127,8 +127,8 @@ export async function postAddPet(formData: FormData) {
 
     if (res.ok) {
       console.log("creado con éxito", res.status);
-      revalidatePath("/dashboard");
-      redirect("/dashboard");
+      // revalidatePath("/dashboard");
+      //redirect("/dashboard");
     } else {
       const errorData = await res.json();
       console.log("algo ha salido mal", res.status);

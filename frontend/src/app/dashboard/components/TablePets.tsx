@@ -12,11 +12,13 @@ import {
   ChipProps,
   Image,
   Button,
+  useDisclosure,
 } from "@nextui-org/react";
 import { EditIcon } from "@/app/icons/EditIcon";
 import { DeleteIcon } from "@/app/icons/DeleteIcon";
 import { EyeIcon } from "@/app/icons/EyeIcon";
 import { deletePetByID } from "@/app/action";
+import ConfirmDeletePet from "./ConfirmDeletePet";
 
 // Define la interfaz para los datos de las mascotas
 interface PetData {
@@ -101,12 +103,7 @@ export default function TablePets({ data }: TablePetsProps) {
               </span>
             </Tooltip>
             <Tooltip color="danger" content="Delete user">
-              <Button
-                className="text-lg text-danger cursor-pointer active:opacity-50"
-                onClick={() => handleDeletePet()}
-              >
-                <DeleteIcon />
-              </Button>
+              <ConfirmDeletePet id={data.id} />
             </Tooltip>
           </div>
         );
