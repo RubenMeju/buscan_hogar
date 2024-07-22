@@ -10,6 +10,7 @@ class PetViewSet(viewsets.ModelViewSet):
     queryset = Pet.objects.all()
     serializer_class = PetSerializer
     parser_classes = [MultiPartParser, FormParser]
+    filterset_fields = ['shelter']
 
     @action(detail=False, methods=['get'], url_path='slug/(?P<slug>[^/.]+)')
     def get_by_slug(self, request, slug=None):
