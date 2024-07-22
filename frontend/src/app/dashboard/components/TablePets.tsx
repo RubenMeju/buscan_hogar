@@ -7,10 +7,10 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  User,
   Chip,
   Tooltip,
   ChipProps,
+  Image,
 } from "@nextui-org/react";
 import { EditIcon } from "@/app/icons/EditIcon";
 import { DeleteIcon } from "@/app/icons/DeleteIcon";
@@ -37,6 +37,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 
 // Define las columnas de la tabla
 const columns = [
+  { name: "IMAGE", uid: "image" },
   { name: "NAME", uid: "name" },
   { name: "RAZA", uid: "breed" },
   { name: "STATUS", uid: "status" },
@@ -49,16 +50,17 @@ export default function TablePets({ data }: TablePetsProps) {
     const cellValue = data[columnKey as keyof PetData];
 
     switch (columnKey) {
-      case "name":
+      case "image":
         return (
-          <User
-            avatarProps={{ radius: "lg", src: data.images[0].image }}
-            description={data.name}
-            name={cellValue as string}
-          >
-            {data.name}
-          </User>
+          <Image
+            width={100}
+            alt="NextUI hero Image"
+            src={data.images[0].image}
+            radius="sm"
+          />
         );
+      case "name":
+        return <p> {data.name}</p>;
       case "breed":
         return (
           <div className="flex flex-col">
