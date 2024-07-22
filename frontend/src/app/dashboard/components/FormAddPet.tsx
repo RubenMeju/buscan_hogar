@@ -1,6 +1,15 @@
 "use client";
 import { postAddPet } from "@/app/action";
-import { Button, Checkbox, Input, Radio, RadioGroup } from "@nextui-org/react";
+import {
+  Button,
+  Checkbox,
+  Input,
+  Modal,
+  ModalContent,
+  Radio,
+  RadioGroup,
+  useDisclosure,
+} from "@nextui-org/react";
 import { useState } from "react";
 
 interface errorPet {
@@ -17,6 +26,8 @@ interface Imagefiles {
   "0": string[];
 }
 export default function FormAddPet() {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   const [listError, setListError] = useState<errorPet>();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -24,7 +35,7 @@ export default function FormAddPet() {
     const formData = new FormData(event.currentTarget);
 
     const result = await postAddPet(formData);
-    console.log(result);
+    // console.log(result);
     if (!result.success) {
       setListError(result.error);
     }
@@ -32,73 +43,93 @@ export default function FormAddPet() {
   console.log(listError);
   return (
     <>
-      <h1 className="font-bold pt-4 pb-4">Añadir nueva mascota</h1>
-      <span>{listError && "Revise los campos en rojo"}</span>
-      <form
-        encType="multipart/form-data"
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4"
-      >
-        <Input
-          name="name"
-          isInvalid={!!listError?.name}
-          placeholder="Nombre de la mascota"
-        />
+      <Button onClick={onOpen} color="success" variant="flat">
+        Añadir mascota
+      </Button>
 
-        <Input name="breed" isInvalid={!!listError?.breed} placeholder="Raza" />
-        <Input name="age" isInvalid={!!listError?.age} placeholder="Edad" />
+      <Modal isOpen={isOpen} placement={"center"} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <div className="p-8">
+              <h1 className="font-bold pt-4 pb-4">Añadir nueva mascota</h1>
+              <span>{listError && "Revise los campos en rojo"}</span>
+              <form
+                encType="multipart/form-data"
+                onSubmit={handleSubmit}
+                className="flex flex-col gap-4"
+              >
+                <Input
+                  name="name"
+                  isInvalid={!!listError?.name}
+                  placeholder="Nombre de la mascota"
+                />
 
-        <Input
-          name="description"
-          isInvalid={!!listError?.description}
-          placeholder="Descripción de la mascota"
-        />
+                <Input
+                  name="breed"
+                  isInvalid={!!listError?.breed}
+                  placeholder="Raza"
+                />
+                <Input
+                  name="age"
+                  isInvalid={!!listError?.age}
+                  placeholder="Edad"
+                />
 
-        <RadioGroup
-          name="species"
-          label="Seleccione la especie"
-          color="warning"
-          orientation="horizontal"
-          isInvalid={!!listError?.species}
-        >
-          <Radio value="Dog">Perro</Radio>
-          <Radio value="Cat">Gato</Radio>
-        </RadioGroup>
+                <Input
+                  name="description"
+                  isInvalid={!!listError?.description}
+                  placeholder="Descripción de la mascota"
+                />
 
-        <RadioGroup
-          name="gender"
-          label="Seleccione el genero"
-          color="warning"
-          orientation="horizontal"
-          isInvalid={!!listError?.gender}
-        >
-          <Radio value="Male">Macho</Radio>
-          <Radio value="Female">Hembra</Radio>
-        </RadioGroup>
-        <RadioGroup
-          name="size"
-          label="Seleccione el tamaño"
-          color="warning"
-          orientation="horizontal"
-          isInvalid={!!listError?.size}
-        >
-          <Radio value="Small">Pequeño</Radio>
-          <Radio value="Medium">Mediano</Radio>
-          <Radio value="Large">Grande</Radio>
-        </RadioGroup>
+                <RadioGroup
+                  name="species"
+                  label="Seleccione la especie"
+                  color="warning"
+                  orientation="horizontal"
+                  isInvalid={!!listError?.species}
+                >
+                  <Radio value="Dog">Perro</Radio>
+                  <Radio value="Cat">Gato</Radio>
+                </RadioGroup>
 
-        <div className="flex gap-2">
-          <Checkbox name="vaccinated">Vacunado</Checkbox>
-          <Checkbox name="neutered">Castrado</Checkbox>
-          <Checkbox name="microchip">Microchip</Checkbox>
-        </div>
+                <RadioGroup
+                  name="gender"
+                  label="Seleccione el genero"
+                  color="warning"
+                  orientation="horizontal"
+                  isInvalid={!!listError?.gender}
+                >
+                  <Radio value="Male">Macho</Radio>
+                  <Radio value="Female">Hembra</Radio>
+                </RadioGroup>
+                <RadioGroup
+                  name="size"
+                  label="Seleccione el tamaño"
+                  color="warning"
+                  orientation="horizontal"
+                  isInvalid={!!listError?.size}
+                >
+                  <Radio value="Small">Pequeño</Radio>
+                  <Radio value="Medium">Mediano</Radio>
+                  <Radio value="Large">Grande</Radio>
+                </RadioGroup>
 
-        <input type="file" name="image" accept="image/*" />
+                <div className="flex gap-2">
+                  <Checkbox name="vaccinated">Vacunado</Checkbox>
+                  <Checkbox name="neutered">Castrado</Checkbox>
+                  <Checkbox name="microchip">Microchip</Checkbox>
+                </div>
 
-        <Button color="primary" type="submit">
-          Añadir
-        </Button>
-      </form>
+                <input type="file" name="image" accept="image/*" />
+
+                <Button color="primary" type="submit">
+                  Añadir
+                </Button>
+              </form>
+            </div>
+          )}
+        </ModalContent>
+      </Modal>
     </>
   );
 }

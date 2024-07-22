@@ -1,5 +1,6 @@
 import FormAddPet from "./components/FormAddPet";
 import TablePets from "./components/TablePets";
+import TablePets2 from "./components/TablePets2";
 
 async function getData() {
   const res = await fetch("http://127.0.0.1:8000/pets/?shelter=1");
@@ -16,10 +17,13 @@ async function getData() {
 
 export default async function DashboardPage() {
   const data = await getData();
-  console.log("Las mascotas de la protectora : ", data);
+  //  console.log("Las mascotas de la protectora : ", data);
   return (
     <div>
       <h1>DashboardPage</h1>
+
+      <FormAddPet />
+
       <TablePets data={data} />
     </div>
   );
