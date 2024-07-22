@@ -1,6 +1,8 @@
 "use server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/authOptions";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export async function signUp(formData: FormData) {
   console.log("signUp");
@@ -125,7 +127,8 @@ export async function postAddPet(formData: FormData) {
 
     if (res.ok) {
       console.log("creado con éxito", res.status);
-      return { success: true };
+      revalidatePath("/dashboard");
+      redirect("/dashboard");
     } else {
       const errorData = await res.json();
       console.log("algo ha salido mal", res.status);
@@ -136,4 +139,41 @@ export async function postAddPet(formData: FormData) {
     console.error("hubo un error", error);
     return { success: false, error: error.toString() };
   }
+}
+
+export async function getPetsByShelter() {
+  const res = await fetch("http://127.0.0.1:8000/pets/?shelter=1", {
+    cache: "no-store",
+  });
+  // The return value is *not* serialized
+  // You can return Date, Map, Set, etc.
+
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
+export async function deletePetByID(id) {
+  console.log("vamos a elimminar la mascota", id);
+  const session = await getServerSession(authOptions);
+  const token = session?.user?.access;
+
+  const res = await fetch(`http://127.0.0.1:8000/pets/${id}/`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `JWT ${token}`,
+    },
+  });
+  // The return value is *not* serialized
+  // You can return Date, Map, Set, etc.
+
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    return { status: 404, message: "Algo ha salido mal" };
+  }
+
+  redirect("/dashboard");
 }

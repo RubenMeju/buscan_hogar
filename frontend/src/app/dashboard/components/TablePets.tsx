@@ -11,10 +11,12 @@ import {
   Tooltip,
   ChipProps,
   Image,
+  Button,
 } from "@nextui-org/react";
 import { EditIcon } from "@/app/icons/EditIcon";
 import { DeleteIcon } from "@/app/icons/DeleteIcon";
 import { EyeIcon } from "@/app/icons/EyeIcon";
+import { deletePetByID } from "@/app/action";
 
 // Define la interfaz para los datos de las mascotas
 interface PetData {
@@ -48,6 +50,11 @@ export default function TablePets({ data }: TablePetsProps) {
   // Define el tipo de los parámetros de renderCell
   const renderCell = React.useCallback((data: PetData, columnKey: string) => {
     const cellValue = data[columnKey as keyof PetData];
+
+    const handleDeletePet = async () => {
+      const res = deletePetByID(data.id);
+      console.log("el res: ", await res);
+    };
 
     switch (columnKey) {
       case "image":
@@ -94,9 +101,12 @@ export default function TablePets({ data }: TablePetsProps) {
               </span>
             </Tooltip>
             <Tooltip color="danger" content="Delete user">
-              <span className="text-lg text-danger cursor-pointer active:opacity-50">
+              <Button
+                className="text-lg text-danger cursor-pointer active:opacity-50"
+                onClick={() => handleDeletePet()}
+              >
                 <DeleteIcon />
-              </span>
+              </Button>
             </Tooltip>
           </div>
         );
