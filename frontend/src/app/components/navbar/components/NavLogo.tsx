@@ -1,4 +1,5 @@
 import {
+  Link,
   NavbarBrand,
   NavbarContent,
   NavbarMenuToggle,
@@ -16,8 +17,10 @@ const NavLogo: React.FC<NavLogoProps> = ({ isMenuOpen }) => {
         className="sm:hidden"
       />
       <NavbarBrand>
-        <p>Adoptar</p>
-        <p className="font-bold text-inherit">MASCOTAS</p>
+        <Link href="/">
+          <p>Adoptar</p>
+          <p className="font-bold text-inherit">MASCOTAS</p>
+        </Link>
       </NavbarBrand>
     </NavbarContent>
   );

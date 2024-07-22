@@ -33,9 +33,11 @@ export default function NavUserAvatar() {
             <p className="font-semibold">{session?.user?.email}</p>
           </DropdownItem>
           <DropdownItem key="settings">
-            <Link href="/profile">My Settings</Link>
+            <Link href="/profile">Mí perfil</Link>
           </DropdownItem>
-          <DropdownItem key="team_settings">Team Settings</DropdownItem>
+          <DropdownItem key="dashboard">
+            <Link href="/dashboard">Dashboard</Link>
+          </DropdownItem>
           <DropdownItem key="analytics">Analytics</DropdownItem>
           <DropdownItem key="system">System</DropdownItem>
           <DropdownItem key="configurations">Configurations</DropdownItem>

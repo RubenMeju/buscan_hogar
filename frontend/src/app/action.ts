@@ -83,7 +83,6 @@ export async function activationAccount(
 }
 
 export async function postAddPet(formData: FormData) {
-  "use server";
   const session = await getServerSession(authOptions);
   const token = session?.user?.access;
 
@@ -110,7 +109,6 @@ export async function postAddPet(formData: FormData) {
   rawFormData.append("status", "Available");
   rawFormData.append("shelter", "1");
 
-  // Añade la imagen al formData
   const imageFile = formData.get("image") as File;
   if (imageFile) {
     rawFormData.append("image_files", imageFile);
@@ -126,15 +124,16 @@ export async function postAddPet(formData: FormData) {
     });
 
     if (res.ok) {
-      // res.ok verifica si el código de estado está en el rango 200-299
       console.log("creado con éxito", res.status);
+      return { success: true };
     } else {
-      const errorData = await res.json(); // Obtener detalles del error desde la respuesta
+      const errorData = await res.json();
       console.log("algo ha salido mal", res.status);
       console.log("respuesta: ", errorData);
-      return errorData;
+      return { success: false, error: errorData || "Error desconocido" };
     }
   } catch (error) {
     console.error("hubo un error", error);
+    return { success: false, error: error.toString() };
   }
 }
