@@ -12,6 +12,7 @@ import {
   RadioGroup,
   useDisclosure,
 } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 
 import { useState } from "react";
 
@@ -28,10 +29,12 @@ interface errorPet {
 interface Imagefiles {
   "0": string[];
 }
-export default function FormAddPet() {
-  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
 
-  const [listError, setListError] = useState<errorPet>();
+export default function FormAddPet() {
+  const router = useRouter();
+
+  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const [listError, setListError] = useState<errorPet | null>(null);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -44,10 +47,15 @@ export default function FormAddPet() {
       ToastError("La mascota no se ha podido añadir!!!");
     } else {
       console.log("success");
+      setListError(null); // Clear the listError
+      onClose();
       ToastSuccess("Mascota añadida!");
+      router.push("/dashboard");
     }
   };
+
   console.log(listError);
+
   return (
     <>
       <Button onClick={onOpen} color="success" variant="flat">
