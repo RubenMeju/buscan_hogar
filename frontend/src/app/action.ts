@@ -2,7 +2,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/authOptions";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 
 export async function signUp(formData: FormData) {
   console.log("signUp");

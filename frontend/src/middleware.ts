@@ -6,7 +6,7 @@ import refreshToken from "./app/api/auth/refreshToken";
 export async function middleware(req) {
   const session = await getToken({ req });
   const token = session?.access;
-  console.log("------------------1-------TOKEN ACTUAL :", token);
+  //console.log("------------------1-------TOKEN ACTUAL :", token);
 
   if (!token) {
     console.log("Token not found, redirecting to home.");
@@ -14,7 +14,6 @@ export async function middleware(req) {
   }
 
   const tokenVerify = await verifyToken(token);
-  console.log("sale is verified", tokenVerify);
 
   if (!tokenVerify) {
     // console.log('el token ha caducadooooo!')
