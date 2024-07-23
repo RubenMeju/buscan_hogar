@@ -1,5 +1,4 @@
 "use client";
-import { postAddPet } from "@/app/action";
 import { ToastError } from "@/app/toast/ToastError";
 import { ToastSuccess } from "@/app/toast/ToastSuccess";
 import {
@@ -15,6 +14,7 @@ import {
 import { useRouter } from "next/navigation";
 
 import { useState } from "react";
+import { postAddPet } from "../actionsCrudPets";
 
 interface errorPet {
   image_files: Imagefiles;

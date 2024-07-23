@@ -1,4 +1,4 @@
-import { getPetsByShelter } from "../action";
+import { getPetsByShelter } from "./actionsCrudPets";
 import FormAddPet from "./components/FormAddPet";
 import TablePets from "./components/TablePets";
 

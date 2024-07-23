@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Button, Modal, ModalContent } from "@nextui-org/react";
-import { deletePetByID } from "@/app/action";
+import { deletePetByID } from "../actionsCrudPets";
 
 export default function ConfirmDeletePet({ id, isOpen, onOpenChange }) {
   console.log("llega el id: ", id);
