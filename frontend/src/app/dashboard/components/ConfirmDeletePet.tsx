@@ -4,23 +4,17 @@ import { Button, Modal, ModalContent } from "@nextui-org/react";
 import { deletePetByID } from "../actionsCrudPets";
 import { useFormStatus } from "react-dom";
 
-export default function ConfirmDeletePet({
-  id,
-  isOpen,
-  onClose,
-  onOpenChange,
-}) {
+export default function ConfirmDeletePet({ id, isOpen, onOpenChange }) {
   const { pending } = useFormStatus();
 
   console.log("llega el id: ", id);
-  const updateUserWithId = deletePetByID.bind(null, id);
 
   return (
     <Modal isOpen={isOpen} placement="center" onOpenChange={onOpenChange}>
       <ModalContent>
         {(onClose) => (
           <div className="p-8">
-            <form action={updateUserWithId}>
+            <div>
               <span className="font-semibold text-2xl">
                 ¿Estás completamente seguro de eliminar esta mascota?
               </span>
@@ -30,11 +24,17 @@ export default function ConfirmDeletePet({
                 <Button color="default" type="button" onPress={onClose}>
                   Cerrar
                 </Button>
-                <Button color="danger" type="submit" disabled={pending}>
+                <Button
+                  color="danger"
+                  onClick={async () => {
+                    const updatedLikes = await deletePetByID(id);
+                    onClose();
+                  }}
+                >
                   Confirmar eliminación
                 </Button>
               </div>
-            </form>
+            </div>
           </div>
         )}
       </ModalContent>
