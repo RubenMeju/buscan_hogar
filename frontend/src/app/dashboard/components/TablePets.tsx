@@ -52,7 +52,7 @@ const columns = [
 ];
 
 export default function TablePets({ data }: TablePetsProps) {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
   const [selectedId, setSelectedId] = useState<Number>();
   // Define el tipo de los parámetros de renderCell
   const renderCell = React.useCallback((data: PetData, columnKey: string) => {
@@ -146,6 +146,7 @@ export default function TablePets({ data }: TablePetsProps) {
       <ConfirmDeletePet
         id={selectedId}
         isOpen={isOpen}
+        onClose={onClose}
         onOpenChange={onOpenChange}
       />
     </>

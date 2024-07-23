@@ -83,7 +83,10 @@ export async function getPetsByShelter() {
 export async function deletePetByID(id) {
   console.log("vamos a elimminar la mascota", id);
   const session = await getServerSession(authOptions);
-  const token = session?.user?.access;
+
+  //verificamos el access y refrescamos el token si caduco
+  const token = await newToken(session?.user);
+  session.access = token;
 
   const res = await fetch(`http://127.0.0.1:8000/pets/${id}/`, {
     method: "DELETE",
