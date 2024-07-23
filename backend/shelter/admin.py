@@ -3,7 +3,7 @@ from .models import Shelter
 
 
 class ShelterAdmin(admin.ModelAdmin):
-    list_display = ('name', 'address', 'phone', 'email', 'website')
+    list_display = ('id', 'name', 'address', 'phone', 'email', 'website')
     search_fields = ('name', 'address')
 
 

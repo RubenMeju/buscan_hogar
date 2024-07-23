@@ -12,6 +12,8 @@ export async function postAddPet(formData: FormData) {
   session.access = token;
 
   const rawFormData = new FormData();
+  const shelterID = formData.get("id") as string;
+  console.log("shelterID: ", shelterID);
   rawFormData.append("name", formData.get("name") as string);
   rawFormData.append("species", formData.get("species") as string);
   rawFormData.append("breed", formData.get("breed") as string);
@@ -32,8 +34,8 @@ export async function postAddPet(formData: FormData) {
     formData.get("microchip") === "on" ? "true" : "false"
   );
   rawFormData.append("status", "Available");
-  rawFormData.append("shelter", "1");
-
+  rawFormData.append("shelter", "2");
+  console.log("shelter444444444444444", shelterID);
   const imageFile = formData.get("image") as File;
   if (imageFile) {
     rawFormData.append("image_files", imageFile);
@@ -65,8 +67,8 @@ export async function postAddPet(formData: FormData) {
   }
 }
 
-export async function getPetsByShelter() {
-  const res = await fetch("http://127.0.0.1:8000/pets/?shelter=1", {
+export async function getPetsByShelter(id) {
+  const res = await fetch(`http://127.0.0.1:8000/pets/?shelter=${id}`, {
     cache: "no-store",
   });
   // The return value is *not* serialized

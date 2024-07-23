@@ -30,7 +30,8 @@ interface Imagefiles {
   "0": string[];
 }
 
-export default function FormAddPet() {
+export default function FormAddPet(shelterID) {
+  console.log("FormAddPet esta ellegando el shelterid", shelterID.id);
   const router = useRouter();
 
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
@@ -73,6 +74,7 @@ export default function FormAddPet() {
                 onSubmit={handleSubmit}
                 className="flex flex-col gap-4"
               >
+                <input type="hidden" value={shelterID.id} />
                 <Input
                   name="name"
                   isInvalid={!!listError?.name}
