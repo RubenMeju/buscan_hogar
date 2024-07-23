@@ -1,11 +1,15 @@
 "use server";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 import { authOptions } from "../api/auth/[...nextauth]/authOptions";
+import { revalidatePath } from "next/cache";
+import { newToken } from "../utils";
 
 export async function postAddPet(formData: FormData) {
   const session = await getServerSession(authOptions);
-  const token = session?.user?.access;
+
+  //verificamos el access y refrescamos el token si caduco
+  const token = await newToken(session?.user);
+  session.access = token;
 
   const rawFormData = new FormData();
   rawFormData.append("name", formData.get("name") as string);
@@ -39,14 +43,14 @@ export async function postAddPet(formData: FormData) {
     const res = await fetch("http://127.0.0.1:8000/pets/", {
       method: "POST",
       headers: {
-        Authorization: `JWT ${token}`,
+        Authorization: `JWT ${session?.access}`,
       },
       body: rawFormData,
     });
 
     if (res.ok) {
       console.log("creado con éxito", res.status);
-      // revalidatePath("/dashboard");
+      revalidatePath("/dashboard");
       //redirect("/dashboard");
       return { success: true };
     } else {
@@ -95,5 +99,5 @@ export async function deletePetByID(id) {
     return { status: 404, message: "Algo ha salido mal" };
   }
 
-  redirect("/dashboard");
+  revalidatePath("/dashboard");
 }

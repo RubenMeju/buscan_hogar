@@ -10,7 +10,7 @@ import NavUserAvatar from "./components/NavUserAvatar";
 
 import { useSession } from "next-auth/react";
 
-export default function App() {
+export default function Nav() {
   const { data: session } = useSession();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

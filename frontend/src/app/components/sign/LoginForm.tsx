@@ -10,6 +10,7 @@ import {
   Link,
 } from "@nextui-org/react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface LoginFormProps {
@@ -27,6 +28,7 @@ export default function LoginForm({ onClose, setIsLogin }: LoginFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [listError, setListError] = useState<ErrorList>({});
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,6 +41,7 @@ export default function LoginForm({ onClose, setIsLogin }: LoginFormProps) {
       if (res?.ok) {
         console.log("Success");
         onClose();
+        router.push("/dashboard");
       } else {
         console.log("Error", JSON.parse(res?.error));
         setListError(JSON.parse(res?.error || "{}"));
