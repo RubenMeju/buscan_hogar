@@ -27,7 +27,7 @@ export async function signUp(formData: FormData) {
       }),
     });
     const respuesta = await res.json();
-    console.log("respuesta", respuesta);
+    // console.log("respuesta", respuesta);
     if (!res.ok) {
       if (respuesta.email) {
         //   ToastError("El email ya existe!!!");
@@ -51,9 +51,6 @@ export async function activationAccount(
   uid: string,
   token: string
 ): Promise<string> {
-  console.log("Vamos a activar la cuenta", uid);
-  console.log("El token:", token);
-
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/auth/users/activation/`,

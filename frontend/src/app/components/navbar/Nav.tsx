@@ -14,7 +14,7 @@ export default function App() {
   const { data: session } = useSession();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  console.log(session);
+  // console.log(session);
   return (
     <>
       <Navbar onMenuOpenChange={setIsMenuOpen}>

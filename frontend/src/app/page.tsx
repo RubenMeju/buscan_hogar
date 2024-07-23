@@ -38,7 +38,6 @@ async function getPets() {
 
 export default async function Home() {
   const data = await getPets();
-  console.log(data);
   return (
     <div>
       <h1 className="p-4 text-center text-xl font-semibold">
