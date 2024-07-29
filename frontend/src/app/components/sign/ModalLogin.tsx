@@ -1,3 +1,4 @@
+"use client";
 import { Modal, ModalContent } from "@nextui-org/react";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";

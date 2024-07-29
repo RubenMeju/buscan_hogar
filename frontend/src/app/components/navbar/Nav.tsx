@@ -1,37 +1,10 @@
-"use client";
-import React from "react";
-import { Navbar, useDisclosure } from "@nextui-org/react";
-import ModalLogin from "../sign/ModalLogin";
-import NavLogo from "./components/NavLogo";
-import NavLinksDesktop from "./components/NavLinksDesktop";
-import NavAuth from "./components/NavAuth";
-import NavMenuMobile from "./components/NavMenuMobile";
-import NavUserAvatar from "./components/NavUserAvatar";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import { Session } from "./types_nav";
+import NavBar from "./components/Navbar";
 
-import { useSession } from "next-auth/react";
+export default async function Nav() {
+  const session: Session | null = await getServerSession(authOptions);
 
-export default function Nav() {
-  const { data: session } = useSession();
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  // console.log(session);
-  return (
-    <>
-      <Navbar onMenuOpenChange={setIsMenuOpen}>
-        <NavLogo isMenuOpen={isMenuOpen} />
-
-        <NavLinksDesktop />
-
-        {session?.user?.access ? (
-          <NavUserAvatar />
-        ) : (
-          <NavAuth onOpen={onOpen} />
-        )}
-
-        <NavMenuMobile />
-      </Navbar>
-
-      <ModalLogin isOpen={isOpen} onOpenChange={onOpenChange} />
-    </>
-  );
+  return <NavBar session={session} />;
 }
